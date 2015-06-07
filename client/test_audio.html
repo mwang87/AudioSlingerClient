@@ -1,0 +1,57 @@
+<html lang="en" dir="ltr" itemscope itemtype="http://schema.org/Article">
+	<head>
+
+	</head>
+	<body>
+		SHIT ITS HAPPENING
+		<button>Make white noise</button>
+	</body>
+</html>
+
+
+<script>
+	var context;
+	window.addEventListener('load', init, false);
+	function init() {
+		try {
+			// Fix up for prefixing
+			window.AudioContext = window.AudioContext||window.webkitAudioContext;
+			context = new AudioContext();
+		}
+		catch(e) {
+			alert('Web Audio API is not supported in this browser');
+		}
+
+		var button = document.querySelector('button');
+		button.onclick = function(){
+			playSound(createSampleAudioBuffer(), 1)
+		}
+	}
+
+	function playSound(buffer, time) {
+		var source = context.createBufferSource();
+		source.buffer = buffer;
+		source.connect(context.destination);
+		source.start(time);
+	}
+
+	function createSampleAudioBuffer(){
+		var channels = 2;
+		// Create an empty two second stereo buffer at the
+		// sample rate of the AudioContext
+		var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+		var frameCount = audioCtx.sampleRate * 2.0;
+		var myArrayBuffer = audioCtx.createBuffer(2, frameCount, audioCtx.sampleRate);
+
+		for (var channel = 0; channel < channels; channel++) {
+		   // This gives us the actual array that contains the data
+		   var nowBuffering = myArrayBuffer.getChannelData(channel);
+		   for (var i = 0; i < frameCount; i++) {
+		     	// Math.random() is in [0; 1.0]
+		    	// audio needs to be in [-1.0; 1.0]
+		    	nowBuffering[i] = Math.random() * 2 - 1;
+		   }
+		}
+		return myArrayBuffer
+	}
+</script>

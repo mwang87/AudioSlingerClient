@@ -6,11 +6,37 @@ Copyright (c) 2013 Dave P.
 import signal, sys, ssl
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer, SimpleSSLWebSocketServer
 from optparse import OptionParser
+import json
+import math
 
+def create_sin_wave(sampling_rate, length):
+   frameCount = sampling_rate * length
+   audio_data = []
 
+   for i in range(frameCount):
+      audio_data.append(math.sin(i/20))
+
+   return audio_data
+
+#Changing this
 class SimpleEcho(WebSocket):
 
    def handleMessage(self):
+      json_object = json.loads(self.data)
+      print json_object
+
+      if "echo" in json_object:
+         self.sendMessage(self.data)
+         return
+
+
+      if json_object["command"] == "getsampleaudio":
+         sampling_rate = int(json_object["rate"])
+         return_data = {}
+         return_data["audiodata"] = create_sin_wave(sampling_rate, 2)
+         return_data["datatype"] = "audiodata"
+         self.sendMessage(unicode(json.dumps(return_data)))
+         return
       self.sendMessage(self.data)
 
    def handleConnected(self):

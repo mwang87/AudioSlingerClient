@@ -9,6 +9,7 @@
 		<button id="whitenoise">Make white noise</button>
 		<button id="websocketconnect">WS Connect</button>
 		<button id="websocketecho">WS Echo</button>
+		<button id="websocketgetaudio">WS Get Audio</button>
 	</body>
 </html>
 
@@ -37,6 +38,10 @@
 
 		$("#websocketecho").click(function(){
 			test_websocket_echo();
+		});
+
+		$("#websocketgetaudio").click(function(){
+			test_request_sin_signal();
 		});
 	}
 

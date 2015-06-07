@@ -1,10 +1,14 @@
 <html lang="en" dir="ltr" itemscope itemtype="http://schema.org/Article">
 	<head>
 		<script src="js/client_audio.js"></script>
+		<script src="js/client_websocket.js"></script>
+		<script src="js/jquery-1.11.3.min.js"></script>
 	</head>
 	<body>
 		SHIT ITS HAPPENING
-		<button>Make white noise</button>
+		<button id="whitenoise">Make white noise</button>
+		<button id="websocketconnect">WS Connect</button>
+		<button id="websocketecho">WS Echo</button>
 	</body>
 </html>
 
@@ -22,10 +26,18 @@
 			alert('Web Audio API is not supported in this browser');
 		}
 
-		var button = document.querySelector('button');
-		button.onclick = function(){
+		
+		$("#whitenoise").click(function(){
 			playSound(createSampleAudioBuffer(), 0)
-		}
+		});
+
+		$("#websocketconnect").click(function(){
+			init_websocket();
+		});
+
+		$("#websocketecho").click(function(){
+			test_websocket_echo();
+		});
 	}
 
 	

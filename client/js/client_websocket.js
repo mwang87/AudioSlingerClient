@@ -9,13 +9,13 @@ function websocketclose_callback(){
 }
 
 function websocketmessage_callback(message) {
-    console.log("message")
+    console.log("message: " + message.data)
 }
 
 function init_websocket(){
     console.log('Initializing Websocket');
-    ws_uri = "ws://" + "localhost" + "/";
-    ws = new WebSocket(uri);
+    ws_uri = "ws://localhost:8000/";
+    ws = new WebSocket(ws_uri);
     ws.onmessage = websocketmessage_callback;
     ws.onerror = websocketerror_callback;
     ws.onclose = websocketclose_callback;
